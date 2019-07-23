@@ -20,7 +20,7 @@ import java.util.Date;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler
 {
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler({ResourceNotFoundException.class})
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request)
     {
         ErrorDetail errorDetail = new ErrorDetail();
@@ -56,7 +56,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         errorDetail.setDetail(request.getDescription(true));
         errorDetail.setDeveloperMessage("Rest Handler Not Found (check for valid URI)");
 
-        return super.handleNoHandlerFoundException(ex, headers, status, request);
+        return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
 
     @Override
